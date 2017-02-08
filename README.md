@@ -85,6 +85,7 @@ reducer('state', {type: 'ACTION_THREE'}) //'state'
 Merges the keys returned by the reducer into the current state instead of replacing it entirely
 
 ```js
+import { merge } from "higher-order-reducers";
 const animal = (state, action) => {noise: action.noise, feet: action.feet};
 const reducer = merge(animal);
 reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
@@ -105,7 +106,7 @@ reducer(1, {value: 2}) //7
 ```
 
 ### `chain(reducers)`
-Creates a reducer that starts calling the supplied reducer with the supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop.
+Creates a reducer that starts calling the first reducer in the array with supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop.
 
 ```js
 import { chain } from "higher-order-reducers";
