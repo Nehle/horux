@@ -1,6 +1,6 @@
 {
   "name": "higher-order-reducers",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A library of simple everyday reducer utility functions ",
   "main": "lib/index.js",
   "license": "MIT",
