@@ -4,7 +4,7 @@ A simple utility belt library for building and composing redux reducers using hi
 
 ## installation
 
-`yarn add higher-order-reducers`
+From command line, call `yarn add higher-order-reducers` or `npm install --save higher-order-reducers`
 
 ## motivation
 
@@ -79,6 +79,15 @@ const reducer = mapByType({
 reducer('', {type: 'ACTION_ONE', value: 'hello'}); //'hello'
 reducer('', {type: 'ACTION_TWO'}); //2
 reducer('state', {type: 'ACTION_THREE'}) //'state'
+```
+
+### `merge(reducer)`
+Merges the keys returned by the reducer into the current state instead of replacing it entirely
+
+```js
+const animal = (state, action) => {noise: action.noise, feet: action.feet};
+const reducer = merge(animal);
+reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
 ```
 
 ### `compose(reducers)`
