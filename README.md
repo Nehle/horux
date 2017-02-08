@@ -37,7 +37,7 @@ import { chain, always, withDefault, filterByType, mapByType } from "higher-orde
 const someReducer = chain([
     always(withDefault(DEFAULT_STATE)),
     filterByType([TYPE1, TYPE2, TYPE3]),
-    always(clone),
+    always(cloneState),
     mapByType({
       TYPE1: () => {},
       TYPE2: () => {},
@@ -56,13 +56,13 @@ like this until somebody proves to me that it's objectively worse than the alter
 Returns a reducer that returns the supplied `defaultState` if the `state` it's supplied is `undefined`
 
 ```js
-import {withDefault} from "higher-order-reducers";
+import { withDefault } from "higher-order-reducers";
 const reducer = withDefault(2);
 reducer(); //2
 reducer(1); //1
 ```
 
-### `clone`
+### `cloneState`
 Simply returns a clone of the supplied state by calling `JSON.stringify` and then `JSON.parse` on the
 result
 
@@ -81,11 +81,11 @@ reducer('', {type: 'ACTION_TWO'}); //2
 reducer('state', {type: 'ACTION_THREE'}) //'state'
 ```
 
-### `merge(reducer)`
+### `mergeStates(reducer)`
 Merges the keys returned by the reducer into the current state instead of replacing it entirely
 
 ```js
-import { merge } from "higher-order-reducers";
+import { mergeStates } from "higher-order-reducers";
 const animal = (state, action) => {noise: action.noise, feet: action.feet};
 const reducer = merge(animal);
 reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
