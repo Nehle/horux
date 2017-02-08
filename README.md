@@ -37,6 +37,7 @@ import { chain, always, withDefault, filterByType, mapByType } from "higher-orde
 const someReducer = chain([
     always(withDefault(DEFAULT_STATE)),
     filterByType([TYPE1, TYPE2, TYPE3]),
+    always(clone),
     mapByType({
       TYPE1: () => {},
       TYPE2: () => {},
@@ -60,6 +61,10 @@ const reducer = withDefault(2);
 reducer(); //2
 reducer(1); //1
 ```
+
+### `clone`
+Simply returns a clone of the supplied state by calling `JSON.stringify` and then `JSON.parse` on the
+result
 
 ### `mapByType(reducerMap)`
 Return a reducer that maps action types to specific reducer functions, and returns the result
