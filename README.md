@@ -37,7 +37,7 @@ import { chain, always, withDefault, filterByType, mapByType } from "higher-orde
 const someReducer = chain([
     always(withDefault(DEFAULT_STATE)),
     filterByType([TYPE1, TYPE2, TYPE3]),
-    always(cloneState),
+    always(cloneState()),
     mapByType({
       TYPE1: () => {},
       TYPE2: () => {},
@@ -110,7 +110,7 @@ reducer(1, {value: 2}) //7
 ```
 
 ### `chain(reducers)`
-Creates a reducer that starts calling the first reducer in the array with supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop.
+Creates a reducer that starts calling the first reducer in the array with supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop. 
 
 ```js
 import { chain } from "higher-order-reducers";
