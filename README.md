@@ -62,9 +62,13 @@ reducer(); //2
 reducer(1); //1
 ```
 
-### `cloneState`
-Simply returns a clone of the supplied state by calling `JSON.stringify` and then `JSON.parse` on the
-result
+### `cloneState([cloneFn])`
+Returns a deep clone of the supplied state. If no `cloneFn` is supplied, it will simply call
+`JSON.parse(JSON.stringify(state))`, which is by far the fastest way to perform that operation.
+However, it only works with plain objects (and arrays of them), and does not work with object instances,
+functions, regexes et cetera. If something like that is required, consider either implementing your own
+clone function that is built to clone your specific state as quickly as possible, or use something
+like `lodash.cloneDeep`, but be ware of the performance implications
 
 ### `mapByType(reducerMap)`
 Return a reducer that maps action types to specific reducer functions, and returns the result
