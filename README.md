@@ -87,7 +87,7 @@ Merges the keys returned by the reducer into the current state instead of replac
 ```js
 import { mergeStates } from "higher-order-reducers";
 const animal = (state, action) => {noise: action.noise, feet: action.feet};
-const reducer = merge(animal);
+const reducer = mergeStates(animal);
 reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
 ```
 
@@ -167,7 +167,7 @@ const reducer = chain([
 
 reducer(1, {value: 1, type: "SUBTRACT_VALUE"}) //1
 reducer(1, {value: 2, type: "ADD_VALUE"}) //3
-
+```
 
 ## license
-See [LICENSE.md]
+See [LICENSE.md](./LICENSE.md)
