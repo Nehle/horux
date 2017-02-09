@@ -167,3 +167,7 @@ const reducer = chain([
 
 reducer(1, {value: 1, type: "SUBTRACT_VALUE"}) //1
 reducer(1, {value: 2, type: "ADD_VALUE"}) //3
+
+
+## license
+See [LICENSE.md]

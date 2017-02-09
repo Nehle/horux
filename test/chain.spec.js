@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
-import chain from '../lib/chain';
+import { chain } from '../lib';
 
 chai.use(sinonChai);
 
