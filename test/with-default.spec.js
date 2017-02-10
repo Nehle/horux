@@ -7,7 +7,7 @@ describe('withDefault', () => {
   });
 
   it('throws an error if the given defaultState is undefined', () => {
-    expect(() => withDefault()).to.throw('withDefault must have a defined defaultState');
+    expect(() => withDefault()).to.throw('"withDefault" must have a defined defaultState');
   });
 
   it('returns a reducer', () => {
