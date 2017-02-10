@@ -38,4 +38,11 @@ describe('mergeStates', () => {
     reducer({});
     expect(innerReducer).to.have.been.calledOnce;
   });
+
+  it('merges the states', () => {
+    const innerReducer = () => ({ test1: 'reducer' });
+    const state = { test1: 'state', test2: 'state' };
+    const reducer = mergeStates(innerReducer);
+    expect(reducer(state)).to.eql({ test1: 'reducer', test2: 'state' });
+  });
 });
