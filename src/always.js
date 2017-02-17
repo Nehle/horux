@@ -7,7 +7,7 @@ reducer with the result of `innerReducer`
 */
 const always = (innerReducer) => {
   if (typeof innerReducer !== 'function') {
-    throw new Error('Supplied argument to `always` is not a reducer');
+    throw new Error('Supplied argument to "always" is not a reducer');
   }
   return (state, action, next) => next(innerReducer(state, action));
 };

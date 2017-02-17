@@ -6,6 +6,14 @@ import { chain } from '../lib';
 chai.use(sinonChai);
 
 describe('chain', () => {
+  it('is exported properly', () => {
+    expect(chain).to.be.a('function');
+  });
+
+  it('returns a reducer', () => {
+    expect(chain([])).to.be.a('function');
+  });
+
   it('returns the supplied state for an empty chain', () => {
     const state = { foo: 'bar' };
     const reducerChain = chain([]);

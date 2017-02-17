@@ -13,6 +13,10 @@ describe('always', () => {
     expect(() => always(null)).to.throw('not a reducer');
   });
 
+  it('returns a reducer', () => {
+    expect(always(() => {})).to.be.a('function');
+  });
+
   it('calls the underlying reducer', () => {
     const innerReducer = sinon.spy();
     const next = sinon.spy();

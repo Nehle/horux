@@ -3,7 +3,7 @@ import assign from 'object-assign';
 
 const mergeStates = (reducer) => {
   if (typeof reducer !== 'function') {
-    throw new Error('Argument supplied to `merge` is not a reducer');
+    throw new Error('Argument supplied to "mergeStates" is not a reducer');
   }
 
   return (state, action) => {

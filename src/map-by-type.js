@@ -3,7 +3,7 @@ const mapByType = (reducers = {}) => {
   for (let i = 0; i < reducerKeys.length; i += 1) {
     const key = reducerKeys[i];
     if (typeof reducers[key] !== 'function') {
-      throw new Error(`Key ${key} in mapByType is not a reducer`);
+      throw new Error(`Key "${key}" in mapByType is not a reducer`);
     }
   }
   return (state, action) => {

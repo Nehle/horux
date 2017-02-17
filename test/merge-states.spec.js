@@ -6,6 +6,10 @@ import { mergeStates } from '../lib';
 chai.use(sinonChai);
 
 describe('mergeStates', () => {
+  it('is exported properly', () => {
+    expect(mergeStates).to.be.a('function');
+  });
+
   it('throws an error if the inner reducer is not an object', () => {
     expect(() => mergeStates()).to.throw('not a reducer');
     expect(() => mergeStates(null)).to.throw('not a reducer');
