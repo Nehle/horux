@@ -34,10 +34,9 @@ is the groundwork of this library. In the specific case above, it would be rewri
 
 ```js
 import { chain, always, withDefault, filterByType, mapByType } from "higher-order-reducers";
-const someReducer = chain([
-    always(withDefault(DEFAULT_STATE)),
-    filterByType([TYPE1, TYPE2, TYPE3]),
-    always(cloneState()),
+const someReducer = compose([
+    withDefault(DEFAULT_STATE)),
+    cloneState,
     mapByType({
       TYPE1: () => {},
       TYPE2: () => {},
