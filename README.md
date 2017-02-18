@@ -110,7 +110,7 @@ reducer(1, {value: 2}) //7
 ```
 
 ### `chain(reducers)`
-Creates a reducer that starts calling the first reducer in the array with supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop. 
+Creates a reducer that starts calling the first reducer in the array with supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop.
 
 ```js
 import { chain } from "higher-order-reducers";
@@ -125,27 +125,27 @@ const reducer = chain([
 reducer(1, {value: 2}) //5
 ```
 
-### `always(reducer)`
+### `link(reducer)`
 Meant to be used with `chain`, simply converts the reducer to chainable by always calling `next` with its result.
 
 ```js
 import { chain, always } from "higher-order-reducers";
 const add = (state, action) => state + action.value;
-const reducer = compose([
-  always(add),
-  always(add),
-  always(add)
+const reducer = chain([
+  link(add),
+  link(add),
+  link(add)
 ]);
 reducer(1, {value: 2}) //7
 ```
 
-### `filter(predicate)`
+### `linkIf(predicate)`
 Meant to be used with `chain`. Creates a reducer that will only call `next` if the supplied predicate (called with `state` and `action`) returns truthy. Otherwise stops the chain with the value it was supplied.
 
 ```js
 import { chain, filter } from "higher-order-reducers";
 const add = (state, action) => state + action.value;
-const onlyIfEven = filter(state, action) => (action.value % 2 === 0);
+const onlyIfEven = linkIf(state, action) => (action.value % 2 === 0);
 
 const reducer = chain([
   onlyIfEven,
@@ -156,13 +156,13 @@ reducer(1, {value: 1}) //1
 reducer(1, {value: 2}) //3
 ```
 
-### `filterByType(allowedTypes)`
+### `linkIfType(allowedTypes)`
 Meant to by used with `chain`. A special case of the `filter` method that only proceeds if the action `type` field matches a value in the supplied array.
 
 ```js
 import { chain, filterByType } from "higher-order-reducers";
 const add = (state, action) => state + action.value;
-const onlyIfAdd = filterByType(["ADD_VALUE"])
+const onlyIfAdd = linkIfType(["ADD_VALUE"])
 
 const reducer = chain([
   onlyIfAdd,
