@@ -33,7 +33,7 @@ I started experimenting with trying to extract some functional patterns from the
 is the groundwork of this library. In the specific case above, it would be rewritten as
 
 ```js
-import { chain, always, withDefault, filterByType, mapByType } from "higher-order-reducers";
+import { compose, withDefault, cloneState, mapByType } from "higher-order-reducers";
 const someReducer = compose([
     withDefault(DEFAULT_STATE)),
     cloneState,
@@ -128,7 +128,7 @@ reducer(1, {value: 2}) //5
 Meant to be used with `chain`, simply converts the reducer to chainable by always calling `next` with its result.
 
 ```js
-import { chain, always } from "higher-order-reducers";
+import { chain, link } from "higher-order-reducers";
 const add = (state, action) => state + action.value;
 const reducer = chain([
   link(add),
@@ -142,7 +142,7 @@ reducer(1, {value: 2}) //7
 Meant to be used with `chain`. Creates a reducer that will only call `next` if the supplied predicate (called with `state` and `action`) returns truthy. Otherwise stops the chain with the value it was supplied.
 
 ```js
-import { chain, filter } from "higher-order-reducers";
+import { chain, linkIf } from "higher-order-reducers";
 const add = (state, action) => state + action.value;
 const onlyIfEven = linkIf(state, action) => (action.value % 2 === 0);
 
@@ -159,7 +159,7 @@ reducer(1, {value: 2}) //3
 Meant to by used with `chain`. A special case of the `filter` method that only proceeds if the action `type` field matches a value in the supplied array.
 
 ```js
-import { chain, filterByType } from "higher-order-reducers";
+import { chain, linkIfType } from "higher-order-reducers";
 const add = (state, action) => state + action.value;
 const onlyIfAdd = linkIfType(["ADD_VALUE"])
 
