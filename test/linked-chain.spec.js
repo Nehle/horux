@@ -22,7 +22,7 @@ describe('linkedChain', () => {
   });
 
   it('calls the reducer in the chain with state, action and next if it accepts', () => {
-    const reducer = sinon.spy((state, action, next) => {});
+    const reducer = sinon.spy((state, action, next) => {}); // eslint-disable-line no-unused-vars
     const state = { foo: 'bar' };
     const action = { type: 'action' };
     const reducerChain = linkedChain([reducer]);
@@ -33,7 +33,7 @@ describe('linkedChain', () => {
   });
 
   it('calls the first reducer in the chain only with state and action if it doesn\'t take next', () => {
-    const reducer = sinon.spy((state, action) => {});
+    const reducer = sinon.spy((state, action) => {}); // eslint-disable-line no-unused-vars
     const state = { foo: 'bar' };
     const action = { type: 'action' };
     const reducerChain = linkedChain([reducer]);
@@ -55,7 +55,7 @@ describe('linkedChain', () => {
   });
 
   it('doesnt\'t call the second reducer if the first reducer takes next', () => {
-    const first = (state, action, next) => 'test';
+    const first = (state, action, next) => 'test'; // eslint-disable-line no-unused-vars
     const state = { foo: 'bar' };
     const action = { type: 'action' };
     const second = sinon.spy();
