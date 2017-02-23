@@ -62,7 +62,7 @@ reducer(1); //1
 ```
 
 ### `cloneState`
-Returns a deep clone of the supplied state. It is literally just an alias for 
+Returns a deep clone of the supplied state. It is literally just an alias for
 `JSON.parse(JSON.stringify(state))`, which is by far the fastest way to perform that operation.
 However, it only works with plain objects (and arrays of them), and does not work with object instances,
 functions, regexes et cetera. If something like that is required, consider either implementing your own
@@ -121,7 +121,7 @@ const reducer = chain([
   stop, //next is not called here, chain will stop
   addAndContinue
 ]);
-reducer(1, {value: 2}) //5
+reducer(1, {value: 2}) //5  
 ```
 
 ### `link(reducer)`
@@ -172,5 +172,24 @@ reducer(1, {value: 1, type: "SUBTRACT_VALUE"}) //1
 reducer(1, {value: 2, type: "ADD_VALUE"}) //3
 ```
 
+### `linkedChain(reducers)`
+A special version of `chain` that automatically links reducers together if they don't explicitly accept the third
+`next` parameter.
+
+```js
+import { linkedChain } from "higher-order-reducers";
+const add = (state, action) => state + action.value;
+const addAndContinue = (state, action, next) => next(state + action.value);
+const stop = (state, action, next) => state;
+
+const reducer = linkedChain([
+  add, //next is not explicitly accepted here, so linkedChain will continue
+  addAndContinue, //here next is called, so linkedChain will continue
+  stop, //this function accepts next, but doesn't call it, so the chain stops
+  add
+]);
+reducer(1, {value: 2}) //5  
+
+```
 ## license
 See [LICENSE.md](./LICENSE.md)

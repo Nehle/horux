@@ -4,14 +4,14 @@ const chain = (reducers = []) => {
       throw new Error(`Element at position ${i} in "chain" is not a reducer`);
     }
   }
-  const prepareReducer = (position, action) => (state) => {
+  const getNext = (position, action) => (state) => {
     if (position >= reducers.length) {
       return state;
     }
-    return reducers[position](state, action, prepareReducer(position + 1, action));
+    return reducers[position](state, action, getNext(position + 1, action));
   };
 
-  return (state, action) => prepareReducer(0, action)(state);
+  return (state, action) => getNext(0, action)(state);
 };
 
 export default chain;
