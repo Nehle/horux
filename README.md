@@ -108,7 +108,7 @@ const reducer = compose([
   stop, // This reducer takes `next`, but doesn't call it, so the composition stops here
   add // Never called
 ]);
-reducer(1, {value: 2}) //7
+reducer(1, {value: 2}) //5
 ```
 
 ### `linkIf(predicate)`
