@@ -14,7 +14,9 @@ const mergeStates = (reducer) => {
     const nextState = reducer(state, action);
     if (!isPlainObject(nextState)) {
       const type = typeof nextState;
-      throw new Error(`The reducer in "mergeStates" did not return a plain object. Instead it was a "${type}"`);
+      throw new Error(
+        `The reducer in "mergeStates" did not return a plain object. Instead it was a "${type}"`,
+      );
     }
     return assign({}, state, nextState);
   };
