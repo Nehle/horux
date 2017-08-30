@@ -1,10 +1,10 @@
-# higher-order-reducers
+# horux
 
 A simple utility belt library for building and composing redux reducers using higher order functions.
 
 ## installation
 
-From command line, call `yarn add higher-order-reducers` or `npm install --save higher-order-reducers`
+From command line, call `yarn add horux` or `npm install --save horux`
 
 ## motivation
 
@@ -33,7 +33,7 @@ I started experimenting with trying to extract some functional patterns from the
 is the groundwork of this library. In the specific case above, it would be rewritten as
 
 ```js
-import { compose, withDefault, cloneState, mapByType } from "higher-order-reducers";
+import { compose, withDefault, cloneState, mapByType } from "horux";
 const someReducer = compose([
     withDefault(DEFAULT_STATE)),
     cloneState,
@@ -55,7 +55,7 @@ like this until somebody proves to me that it's objectively worse than the alter
 Returns a reducer that returns the supplied `defaultState` if the `state` it's supplied is `undefined`
 
 ```js
-import { withDefault } from "higher-order-reducers";
+import { withDefault } from "horux";
 const reducer = withDefault(2);
 reducer(); //2
 reducer(1); //1
@@ -74,7 +74,7 @@ Return a reducer that maps action types to specific reducer functions, and retur
 (or the original state if the map does not contain the key)
 
 ```js
-import { mapByType } from "higher-order-reducers";
+import { mapByType } from "horux";
 const reducer = mapByType({
   'ACTION_ONE': (state, action) => action.value,
   'ACTION_TWO': () => 2
@@ -88,65 +88,38 @@ reducer('state', {type: 'ACTION_THREE'}) //'state'
 Merges the keys returned by the reducer into the current state instead of replacing it entirely
 
 ```js
-import { mergeStates } from "higher-order-reducers";
+import { mergeStates } from "horux";
 const animal = (state, action) => {noise: action.noise, feet: action.feet};
 const reducer = mergeStates(animal);
 reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
 ```
 
 ### `compose(reducers)`
-Creates a reducer that generates the state by calling the supplied reducers in order, with the output of the previous reducer as the input for the next, without changing the action.
+Creates a reducer that generates the state by calling the supplied reducers in order, with the output of the previous reducer as the input for the next, without changing the action. You can also accept a reference to the next reducer as a third `next` parameter. If accepted, `compose` will not automatically continue, instead you have to manually continue the chain by calling `next(nextState)` to call the next reducer with the new state and the original action.
 
 ```js
-import { compose } from "higher-order-reducers";
+import { compose } from "horux";
 const add = (state, action) => state + action.value;
-const reducer = compose([
-  add,
-  add,
-  add
-]);
-reducer(1, {value: 2}) //7
-```
-
-### `chain(reducers)`
-Creates a reducer that starts calling the first reducer in the array with supplied state and action, but an additional `next` parameter, that, when called, will call the next reducer in order with the supplied state and the original action. If `next` is not called by a reducer, the chain will stop.
-
-```js
-import { chain } from "higher-order-reducers";
 const addAndContinue = (state, action, next) => next(state + action.value);
-const stop = (state) => state;
-const reducer = chain([
-  addAndContinue,
-  addAndContinue,
-  stop, //next is not called here, chain will stop
-  addAndContinue
-]);
-reducer(1, {value: 2}) //5  
-```
-
-### `link(reducer)`
-Meant to be used with `chain`, simply converts the reducer to chainable by always calling `next` with its result.
-
-```js
-import { chain, link } from "higher-order-reducers";
-const add = (state, action) => state + action.value;
-const reducer = chain([
-  link(add),
-  link(add),
-  link(add)
+const stop = (state, action, next) => state;
+const reducer = compose([
+  add, // This reducer does not care for `next`, so compose continues
+  addAndContinue, // This reducer explicitly calls `next`, so compose continues
+  stop, // This reducer takes `next`, but doesn't call it, so the composition stops here
+  add // Never called
 ]);
 reducer(1, {value: 2}) //7
 ```
 
 ### `linkIf(predicate)`
-Meant to be used with `chain`. Creates a reducer that will only call `next` if the supplied predicate (called with `state` and `action`) returns truthy. Otherwise stops the chain with the value it was supplied.
+Meant to be used with `compose`. Creates a reducer that will only call `next` if the supplied predicate (called with `state` and `action`) returns truthy. Otherwise stops the chain with the value it was supplied.
 
 ```js
-import { chain, linkIf } from "higher-order-reducers";
+import { compose, linkIf } from "horux";
 const add = (state, action) => state + action.value;
 const onlyIfEven = linkIf(state, action) => (action.value % 2 === 0);
 
-const reducer = chain([
+const reducer = compose([
   onlyIfEven,
   add
 ]);
@@ -156,14 +129,14 @@ reducer(1, {value: 2}) //3
 ```
 
 ### `linkIfType(allowedTypes)`
-Meant to by used with `chain`. A special case of the `filter` method that only proceeds if the action `type` field matches a value in the supplied array.
+Meant to by used with `compose`. A special case of the `filter` method that only proceeds if the action `type` field matches a value in the supplied array.
 
 ```js
-import { chain, linkIfType } from "higher-order-reducers";
+import { compose, linkIfType } from "horux";
 const add = (state, action) => state + action.value;
 const onlyIfAdd = linkIfType(["ADD_VALUE"])
 
-const reducer = chain([
+const reducer = compose([
   onlyIfAdd,
   add
 ]);
@@ -172,24 +145,5 @@ reducer(1, {value: 1, type: "SUBTRACT_VALUE"}) //1
 reducer(1, {value: 2, type: "ADD_VALUE"}) //3
 ```
 
-### `linkedChain(reducers)`
-A special version of `chain` that automatically links reducers together if they don't explicitly accept the third
-`next` parameter.
-
-```js
-import { linkedChain } from "higher-order-reducers";
-const add = (state, action) => state + action.value;
-const addAndContinue = (state, action, next) => next(state + action.value);
-const stop = (state, action, next) => state;
-
-const reducer = linkedChain([
-  add, //next is not explicitly accepted here, so linkedChain will continue
-  addAndContinue, //here next is called, so linkedChain will continue
-  stop, //this function accepts next, but doesn't call it, so the chain stops
-  add
-]);
-reducer(1, {value: 2}) //5  
-
-```
 ## license
 See [LICENSE.md](./LICENSE.md)
