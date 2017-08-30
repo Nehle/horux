@@ -1,6 +1,6 @@
 {
   "name": "horux",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A library of simple everyday reducer utility functions ",
   "main": "lib/index.js",
   "license": "MIT",
@@ -10,8 +10,7 @@
   },
   "scripts": {
     "lint": "eslint src test",
-    "test":
-      "npm run compile && mocha --compilers js:babel-core/register test/**/*.spec.js",
+    "test": "npm run compile && mocha --compilers js:babel-core/register test/**/*.spec.js",
     "compile": "babel --presets es2015 -d lib/ src/",
     "prepublish": "npm run lint && npm run compile"
   },
