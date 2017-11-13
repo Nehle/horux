@@ -2,6 +2,8 @@
 
 A simple utility belt library for building and composing redux reducers using higher order functions.
 
+for examples, see [EXAMPLES.md](EXAMPLES.md)
+
 ## installation
 
 From command line, call `yarn add horux` or `npm install --save horux`
