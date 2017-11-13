@@ -52,6 +52,8 @@ the `undo` action comes in
 
 ```javascript
 import {compose} from "horux";
+import reducer from "./reducer";
+
 const undoable = (state, action, next) = {
   let latestState;
   let undoState;
