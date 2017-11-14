@@ -56,12 +56,12 @@ import reducer from "./reducer";
 const undoable = (state, action, next) = {
   let latestState;
   let undoState;
-  if(action.type !== "UNDO_ACTION") {
-   undoState = latestState;
-   latestState = next(state);
-   return latestState;
+  if(action.type === "UNDO_ACTION") {
+   return undoState;
   }
-  return undoState;
+  undoState = latestState;
+  latestState = next(state);
+  return latestState;
 }
 
 return compose([
