@@ -1,8 +1,8 @@
-# Examples
+# examples
 
-## Merging results
-Using `compose` and `next`, we can let our reducers only return
-the keys they have modified, instead of the entire new state.
+## merging
+Using `compose` and `next`, we can let our reducers only return the keys they 
+have modified, instead of the entire new state.
 
 ```javascript
 import {compose} from "horux";
@@ -16,16 +16,11 @@ return compose([
 ```
 
 
-## Versioning your state
-Let's say you have conflicting actions coming into your state, 
-and you want to avoid conflicts by making sure that whenever an 
-action fires, they were from the most up-to-date version of the 
-state.
-
-To solve this, you could se a `version` property of the state,
-and then have the actions supply that version. If the version
-check fails, you can simply ignore it. With the`compose`
-method, we can actually write this very simply
+## versioning
+In this scenario, we might have several async actions being fired
+near-simultaneously. Using two extra reducers in the compose chain, we can
+maintain a `version` property of the state, and reject any actions that aren't
+being fired from an up-to-date state.
 
 ```javascript
 import {linkIf, withDefault, compose} from "horux";
@@ -34,6 +29,7 @@ import reducer from "./reducer";
 const verifyVersion = linkIf((state, action) => state.version === action.expectedVersion);
 const bumpVersion = (state) => {...state, version: state.version + 1};
 const defaultState = {version: 0}
+
 return compose([
   withDefault(defaultState),
   verifyVersion,
@@ -42,12 +38,9 @@ return compose([
 ]);
 ```
 
-## Undoing an action
-Let's say we want to have a functionality to undo an action. Again,
-since `compose` actually returns data from `next`, we can simply leverage
-that to create a new reducer in the chain that has that responsibility.
-Here we simply keep track of the state two actions back, and return to that if 
-the `undo` action comes in
+## undoing
+Using `compose`, we can create a proxy reducer that saves the state, and simply
+returns to an older state if the `UNDO_ACTION` is supplied
 
 ```javascript
 import {compose} from "horux";
