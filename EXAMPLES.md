@@ -24,17 +24,16 @@ state.
 
 To solve this, you could se a `version` property of the state,
 and then have the actions supply that version. If the version
-check fails, you can siply ignore it. With the`compose`
+check fails, you can simply ignore it. With the`compose`
 method, we can actually write this very simply
 
 ```javascript
-import {linkIf, compose} from "horux";
+import {linkIf, withDefault, compose} from "horux";
 import reducer from "./reducer";
 
-const verifyVersion = (state, action) => state.version === action.expectedVersion ? next(state) : state;
+const verifyVersion = linkIf((state, action) => state.version === action.expectedVersion);
 const bumpVersion = (state) => {...state, version: state.version + 1};
-
-//Final reducer
+const defaultState = {version: 0}
 return compose([
   withDefault(defaultState),
   verifyVersion,
