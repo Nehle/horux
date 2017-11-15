@@ -1,7 +1,8 @@
 const compose = (reducers = []) => {
   if (!Array.isArray(reducers)) {
-    throw new Error('"reducers" argument to "compose" must be an array');
+    throw new Error('Argument supplied to to "compose" is not an array');
   }
+
   for (let i = 0; i < reducers.length; i += 1) {
     if (typeof reducers[i] !== 'function') {
       throw new Error(`Element at position ${i} in "compose" is not a reducer`);

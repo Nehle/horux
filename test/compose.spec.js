@@ -10,6 +10,14 @@ describe('compose', () => {
     expect(compose).to.be.a('function');
   });
 
+  it('throws an error if "reducers" is not an array', () => {
+    expect(() => compose(1)).to.throw('Argument supplied to to "compose" is not an array');
+  });
+
+  it('throws an error if one of the elements in the reducers is not a function', () => {
+    expect(() => compose([sinon.stub(), 1])).to.throw('Element at position 1 in "compose" is not a reducer');
+  });
+
   it('returns a reducer', () => {
     expect(compose([])).to.be.a('function');
   });
@@ -22,7 +30,7 @@ describe('compose', () => {
   });
 
   it('calls the reducer in the chain with state, action and next if it accepts', () => {
-    const reducer = sinon.spy((state, action, next) => {}); // eslint-disable-line no-unused-vars
+    const reducer = sinon.spy((state, action, next) => { }); // eslint-disable-line no-unused-vars
     const state = { foo: 'bar' };
     const action = { type: 'action' };
     const reducerChain = compose([reducer]);
@@ -33,7 +41,7 @@ describe('compose', () => {
   });
 
   it("calls the first reducer in the chain only with state and action if it doesn't take next", () => {
-    const reducer = sinon.spy((state, action) => {}); // eslint-disable-line no-unused-vars
+    const reducer = sinon.spy((state, action) => { }); // eslint-disable-line no-unused-vars
     const state = { foo: 'bar' };
     const action = { type: 'action' };
     const reducerChain = compose([reducer]);
