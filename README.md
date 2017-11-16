@@ -53,6 +53,24 @@ like this until somebody proves to me that it's objectively worse than the alter
 
 ## functions
 
+
+### `compose(reducers)`
+Creates a reducer that generates the state by calling the supplied reducers in order, with the output of the previous reducer as the input for the next, without changing the action. You can also accept a reference to the next reducer as a third `next` parameter. If accepted, `compose` will not automatically continue, instead you have to manually continue the chain by calling `next(nextState)` to call the next reducer with the new state and the original action.
+
+```js
+import { compose } from "horux";
+const add = (state, action) => state + action.value;
+const addAndContinue = (state, action, next) => next(state + action.value);
+const stop = (state, action, next) => state;
+const reducer = compose([
+  add, // This reducer does not care for `next`, so compose continues
+  addAndContinue, // This reducer explicitly calls `next`, so compose continues
+  stop, // This reducer takes `next`, but doesn't call it, so the composition stops here
+  add // Never called
+]);
+reducer(1, {value: 2}) //5
+```
+
 ### `withDefault(defaultState)`
 Returns a reducer that returns the supplied `defaultState` if the `state` it's supplied is `undefined`
 
@@ -96,24 +114,9 @@ const reducer = mergeStates(animal);
 reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
 ```
 
-### `compose(reducers)`
-Creates a reducer that generates the state by calling the supplied reducers in order, with the output of the previous reducer as the input for the next, without changing the action. You can also accept a reference to the next reducer as a third `next` parameter. If accepted, `compose` will not automatically continue, instead you have to manually continue the chain by calling `next(nextState)` to call the next reducer with the new state and the original action.
+### `filter(predicate)`
+_also known as `linkIf`, which will be deprecated_
 
-```js
-import { compose } from "horux";
-const add = (state, action) => state + action.value;
-const addAndContinue = (state, action, next) => next(state + action.value);
-const stop = (state, action, next) => state;
-const reducer = compose([
-  add, // This reducer does not care for `next`, so compose continues
-  addAndContinue, // This reducer explicitly calls `next`, so compose continues
-  stop, // This reducer takes `next`, but doesn't call it, so the composition stops here
-  add // Never called
-]);
-reducer(1, {value: 2}) //5
-```
-
-### `linkIf(predicate)`
 Meant to be used with `compose`. Creates a reducer that will only call `next` if the supplied predicate (called with `state` and `action`) returns truthy. Otherwise stops the chain with the value it was supplied.
 
 ```js
@@ -130,7 +133,9 @@ reducer(1, {value: 1}) //1
 reducer(1, {value: 2}) //3
 ```
 
-### `linkIfType(allowedTypes)`
+### `filterIfType(allowedTypes)`
+_also known as `linkIfType`, which will be deprecated_
+
 Meant to by used with `compose`. A special case of the `filter` method that only proceeds if the action `type` field matches a value in the supplied array.
 
 ```js
