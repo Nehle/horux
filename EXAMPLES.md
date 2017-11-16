@@ -1,7 +1,7 @@
 # examples
 
 ## merging
-Using `compose` and `next`, we can let our reducers only return the keys they 
+Using `compose` and `next`, we can let our reducers only return the keys they
 have modified, instead of the entire new state.
 
 ```javascript
@@ -23,10 +23,10 @@ maintain a `version` property of the state, and reject any actions that aren't
 being fired from an up-to-date state.
 
 ```javascript
-import {linkIf, withDefault, compose} from "horux";
+import {filter, withDefault, compose} from "horux";
 import reducer from "./reducer";
 
-const verifyVersion = linkIf((state, action) => state.version === action.expectedVersion);
+const verifyVersion = filter((state, action) => state.version === action.expectedVersion);
 const bumpVersion = (state) => {...state, version: state.version + 1};
 const defaultState = {version: 0}
 
