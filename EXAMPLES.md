@@ -46,19 +46,21 @@ returns to an older state if the `UNDO_ACTION` is supplied
 import {compose} from "horux";
 import reducer from "./reducer";
 
-const undoable = (state, action, next) = {
+const undoable = (undoType = "UNDO_ACTION") => {
   let latestState;
   let undoState;
-  if(action.type === "UNDO_ACTION") {
-   return undoState;
+  return (state, action, next) = {
+    if(action.type === undoType) {
+      return undoState;
+    }
+    undoState = latestState;
+    latestState = next(state);
+    return latestState;
   }
-  undoState = latestState;
-  latestState = next(state);
-  return latestState;
 }
 
 return compose([
-  undoable,
+  undoable("USER_UNDID"),
   reducer;
 ]);
 ```
