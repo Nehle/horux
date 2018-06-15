@@ -1,6 +1,6 @@
 # horux
 
-A simple utility belt library for building and composing redux reducers using higher order functions.
+Horux (**h**igher **or**der red**ux**) is a simple utility belt library for building and composing redux reducers using higher order functions.
 
 for examples, see [EXAMPLES.md](EXAMPLES.md)
 
