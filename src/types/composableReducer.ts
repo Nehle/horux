@@ -1,5 +1,5 @@
 type ComposableReducer = (
-  state: any,
+  state: ReduxState,
   action: ReduxAction,
   next?: ComposableReducer
 ) => any;

@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { cloneState } from '../lib';
+import { cloneState } from '../src';
 
 describe('cloneState', () => {
   const testState = { test: { deep: 'clone' } };

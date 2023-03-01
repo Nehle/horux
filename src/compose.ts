@@ -10,8 +10,8 @@ const compose = (reducers: ComposableReducer[]) => {
   }
 
   const getNext =
-    (position: number, action: any) =>
-    (state: any): Function => {
+    (position: number, action: ReduxAction) =>
+    (state: ReduxState): ReduxState => {
       if (position >= reducers.length) {
         return state;
       }
@@ -22,7 +22,7 @@ const compose = (reducers: ComposableReducer[]) => {
       return reducers[position](state, action, next);
     };
 
-  return (state: any, action: any) => getNext(0, action)(state);
+  return (state: ReduxState, action: ReduxAction) => getNext(0, action)(state);
 };
 
 export default compose;

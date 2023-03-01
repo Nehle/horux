@@ -1,8 +1,5 @@
-const withDefault = (defaultState: any): ComposableReducer => {
-  if (typeof defaultState === "undefined") {
-    throw new Error('"withDefault" must have a defined defaultState');
-  }
-  return (state) => (typeof state === "undefined" ? defaultState : state);
+const withDefault = (defaultstate: ReduxState): ComposableReducer => {
+  return (state) => (typeof state === "undefined" ? defaultstate : state);
 };
 
 export default withDefault;

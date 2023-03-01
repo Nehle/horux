@@ -1,3 +1,3 @@
-const cloneState = (state: any) => JSON.parse(JSON.stringify(state));
+const cloneState = (state: object) => JSON.parse(JSON.stringify(state));
 
 export default cloneState;

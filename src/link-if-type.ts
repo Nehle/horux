@@ -1,8 +1,9 @@
 import linkIf from "./link-if";
 
-const linkIfType = (types = []) =>
+const linkIfType = (types: string[] = []) =>
   linkIf(
-    (_state: any, action: ReduxAction) => types.indexOf(action.type) !== -1
+    (_state: ReduxState, action: ReduxAction) =>
+      types.indexOf(action.type) !== -1
   );
 
 export default linkIfType;
