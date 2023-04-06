@@ -71,6 +71,22 @@ const reducer = compose([
 reducer(1, {value: 2}) //5
 ```
 
+This allows us to cleanly create middleware reducers, that can work with the state without effecting the domain logic of our other reducers. For example, we can create a very simply logging middleware by simply doing the following.
+
+```ts
+import { compose } from "horux";
+import { logger } from "./logger";
+import { reducer } from "./reducer";
+
+const loggingMiddleware = (state, action, next) => {
+  logger.debug(`pre-reduce: ${state} - ${action}`);
+  const nextState = next(state);
+  logger.debug(`post-reduce: ${nextState} - ${action}`);
+}
+
+export const loggingReducer = compose([logggingMiddleware, reducer]);
+```
+
 ### `withDefault(defaultState)`
 Returns a reducer that returns the supplied `defaultState` if the `state` it's supplied is `undefined`
 
@@ -132,7 +148,7 @@ reducer(1, {value: 1}) //1
 reducer(1, {value: 2}) //3
 ```
 
-### `nextIfIfType(allowedTypes)`
+### `nextIfType(allowedTypes)`
 
 Meant to by used with `compose`. A special case of the `nextIf` method that only proceeds if the action `type` field matches a value in the supplied array.
 
