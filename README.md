@@ -114,15 +114,14 @@ const reducer = mergeStates(animal);
 reducer({name: "duck", noise: "quack"}, {noise: "moo", feet: 4}); //{name: "duck", noise: "moo", feet: 4}
 ```
 
-### `filter(predicate)`
-_also known as `linkIf`, which will be deprecated_
+### `nextIf(predicate)`
 
 Meant to be used with `compose`. Creates a reducer that will only call `next` if the supplied predicate (called with `state` and `action`) returns truthy. Otherwise stops the chain with the value it was supplied.
 
 ```js
-import { compose, linkIf } from "horux";
+import { compose, nextIf } from "horux";
 const add = (state, action) => state + action.value;
-const onlyIfEven = linkIf(state, action) => (action.value % 2 === 0);
+const onlyIfEven = nextIf(state, action) => (action.value % 2 === 0);
 
 const reducer = compose([
   onlyIfEven,
@@ -133,15 +132,14 @@ reducer(1, {value: 1}) //1
 reducer(1, {value: 2}) //3
 ```
 
-### `filterIfType(allowedTypes)`
-_also known as `linkIfType`, which will be deprecated_
+### `nextIfIfType(allowedTypes)`
 
-Meant to by used with `compose`. A special case of the `filter` method that only proceeds if the action `type` field matches a value in the supplied array.
+Meant to by used with `compose`. A special case of the `nextIf` method that only proceeds if the action `type` field matches a value in the supplied array.
 
 ```js
-import { compose, linkIfType } from "horux";
+import { compose, nextIfType } from "horux";
 const add = (state, action) => state + action.value;
-const onlyIfAdd = linkIfType(["ADD_VALUE"])
+const onlyIfAdd = nextIfType(["ADD_VALUE"])
 
 const reducer = compose([
   onlyIfAdd,
