@@ -12,7 +12,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm test
+      - run: |
+          npm ci
+          npm test
 
   publish-npm:
     needs: build
@@ -23,8 +25,10 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm test
-      - run: npm publish
+      - run: |
+          npm ci
+          npm test
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
@@ -38,7 +42,9 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@Nehle'
-      - run: npm test
-      - run: npm publish
+      - run: |
+          npm ci
+          npm test
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
