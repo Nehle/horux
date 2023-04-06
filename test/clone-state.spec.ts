@@ -8,10 +8,10 @@ describe("cloneState", () => {
   });
 
   it("makes a copy of the state", () => {
-    expect(cloneState(testState)).toEqual(testState);
+    expect(cloneState(testState)).toStrictEqual(testState);
   });
 
   it("is not the same object", () => {
-    expect(cloneState(testState)).not.toStrictEqual(testState);
+    expect(cloneState(testState)).not.toBe(testState);
   });
 });

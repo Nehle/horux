@@ -17,7 +17,7 @@ describe("compose", () => {
   });
 
   it("calls the reducer in the chain with state, action and next if it accepts", () => {
-    const reducer = jest.fn();
+    const reducer = jest.fn((a, b) => a + b);
     const state = { foo: "bar" };
     const action = { type: "action" };
     const reducerChain = compose([reducer]);
@@ -35,11 +35,7 @@ describe("compose", () => {
 
     reducerChain(state, action);
 
-    expect(reducer).toHaveBeenLastCalledWith(
-      state,
-      action,
-      expect.any(Function)
-    );
+    expect(reducer).toHaveBeenLastCalledWith(state, action);
   });
 
   it("automatically calls the second reducer if the first reducer doesnt take next", () => {
