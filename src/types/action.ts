@@ -1,3 +1,0 @@
-interface ReduxAction {
-    type: string;
-}

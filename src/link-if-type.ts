@@ -1,8 +1,11 @@
 import linkIf from "./link-if";
+import { ComposableReducer } from "./types";
 
-const linkIfType = (types: string[] = []) =>
+const linkIfType = <TState>(
+  types: string[] = []
+): ComposableReducer<TState, { type: string }> =>
   linkIf(
-    (_state: ReduxState, action: ReduxAction) =>
+    (_state: TState, action: { type: string }) =>
       types.indexOf(action.type) !== -1
   );
 

@@ -1,1 +1,0 @@
-type ReduxState = object;

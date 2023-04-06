@@ -1,10 +1,10 @@
-const mergeStates = (reducer: ComposableReducer): ComposableReducer => {
-  if (typeof reducer !== "function") {
-    throw new Error('Argument supplied to "mergeStates" is not a reducer');
-  }
+import { ComposableReducer } from "./types/composableReducer";
 
-  return (state, action) => {
-    const nextState = reducer(state, action);
+const mergeStates = <TState, TAction>(
+  reducer: ComposableReducer<TState, TAction>
+): ComposableReducer<TState, TAction> => {
+  return (state, action, next) => {
+    const nextState = reducer(state, action, next);
     return Object.assign({}, state, nextState);
   };
 };

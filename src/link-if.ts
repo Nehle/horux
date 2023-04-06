@@ -1,9 +1,10 @@
-const linkIf = (predicate: (state: ReduxState, action: ReduxAction) => boolean) => {
-  if (typeof predicate !== "function") {
-    throw new Error('Supplied predicate to "linkIf" is not a function');
-  }
-  return (state: ReduxState, action: ReduxAction, next: (state: ReduxState) => any) =>
-    predicate(state, action) ? next(state) : state;
+import { ComposableReducer } from "./types";
+
+const linkIf = <TState, TAction>(
+  predicate: (state: TState, action: TAction) => boolean
+): ComposableReducer<TState, TAction> => {
+  return (state: TState, action: TAction, next?: (state: TState) => TState) =>
+    !!next && predicate(state, action) ? next(state) : state;
 };
 
 export default linkIf;

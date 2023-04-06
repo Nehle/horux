@@ -1,17 +1,17 @@
-import { cloneState } from '../src';
+import { cloneState } from "../src";
 
-describe('cloneState', () => {
-  const testState = { test: { deep: 'clone' } };
+describe("cloneState", () => {
+  const testState = { test: { deep: "clone" } };
 
-  it('is exported properly', () => {
-    expect(cloneState).to.be.a('function');
+  it("is exported properly", () => {
+    expect(typeof cloneState).toBe("function");
   });
 
-  it('makes a copy of the state', () => {
-    expect(cloneState(testState)).to.eql(testState);
+  it("makes a copy of the state", () => {
+    expect(cloneState(testState)).toEqual(testState);
   });
 
-  it('is not the same object', () => {
-    expect(cloneState(testState)).to.not.equal(testState);
+  it("is not the same object", () => {
+    expect(cloneState(testState)).not.toStrictEqual(testState);
   });
 });

@@ -1,5 +1,5 @@
-type ComposableReducer = (
-  state: ReduxState,
-  action: ReduxAction,
-  next?: ComposableReducer
-) => any;
+export type ComposableReducer<TState, TAction> = (
+  state: TState,
+  action: TAction,
+  next?: (state: TState) => TState
+) => TState;
