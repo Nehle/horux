@@ -1,12 +1,12 @@
-import linkIf from "./link-if";
+import nextIf from "./next-if";
 import { ComposableReducer } from "./types";
 
-const linkIfType = <TState>(
+const nextIfType = <TState>(
   types: string[] = []
 ): ComposableReducer<TState, { type: string }> =>
-  linkIf(
+  nextIf(
     (_state: TState, action: { type: string }) =>
       types.indexOf(action.type) !== -1
   );
 
-export default linkIfType;
+export default nextIfType;
