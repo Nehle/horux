@@ -78,13 +78,24 @@ import { compose } from "horux";
 import { logger } from "./logger";
 import { reducer } from "./reducer";
 
-const loggingMiddleware = (state, action, next) => {
-  logger.debug(`pre-reduce: ${state} - ${action}`);
+const reduxLogger = (state, action, next) => {
+  logger.debug(`pre-reduce: ${action} - ${state}`);
   const nextState = next(state);
-  logger.debug(`post-reduce: ${nextState} - ${action}`);
+  logger.debug(`post-reduce: ${action} - ${nextState}`);
+  return nextState;
 }
 
-export const loggingReducer = compose([logggingMiddleware, reducer]);
+const errorHandler = (state, action, next) => {
+  const originalState = {...state};
+  try {
+    return next(state);
+  } catch (e) {
+    logger.error(`failed reducing ${originalState} from "${action}"`, e);
+    return originalState;
+  }
+}
+
+export const compositeReducer = compose([errorHandler, reduxLogger, reducer]);
 ```
 
 ### `withDefault(defaultState)`
