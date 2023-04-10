@@ -71,7 +71,7 @@ const reducer = compose([
 reducer(1, {value: 2}) //5
 ```
 
-This allows us to cleanly create middleware reducers, that can work with the state without effecting the domain logic of our other reducers. For example, we can create a very simply logging middleware by simply doing the following.
+This allows us to cleanly create middleware reducers, that can work with the state without effecting the domain logic of our other reducers. For example, we can add functionality for logging and error handling thusly.
 
 ```ts
 import { compose } from "horux";
