@@ -8,7 +8,14 @@ describe("compose", () => {
   it("returns a reducer", () => {
     expect(typeof compose([])).toBe("function");
   });
-
+  it("throws an error if the supplied reducers are not an array", () => {
+    expect(() => compose({} as any)).toThrowError("Reducers must be an array");
+  });
+  it("throws an error if the supplied reducers are not an array of functions", () => {
+    expect(() => compose([{} as any])).toThrowError(
+      'Reducer at position "0" is not a function'
+    );
+  });
   it("returns the supplied state for an empty chain", () => {
     const state = { foo: "bar" };
     const reducerChain = compose([]);
