@@ -23,10 +23,10 @@ maintain a `version` property of the state, and reject any actions that aren't
 being fired from an up-to-date state.
 
 ```javascript
-import {filter, withDefault, compose} from "horux";
+import {nextIf, withDefault, compose} from "horux";
 import reducer from "./reducer";
 
-const verifyVersion = filter((state, action) => state.version === action.expectedVersion);
+const verifyVersion = nextIf((state, action) => state.version === action.expectedVersion);
 const bumpVersion = (state) => {...state, version: state.version + 1};
 const defaultState = {version: 0}
 
