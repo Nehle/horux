@@ -10,11 +10,11 @@ const mapByType = <TState, TAction extends { type: string }>(
       throw new Error(`Key "${key}" in mapByType is not a reducer`);
     }
   }
-  return (state, action: TAction, next) => {
+  return (state, action: TAction) => {
     if (!action.type || typeof reducers[action.type] === "undefined") {
       return state;
     }
-    return reducers[action.type](state, action, next);
+    return reducers[action.type](state, action);
   };
 };
 
