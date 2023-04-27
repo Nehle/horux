@@ -9,10 +9,12 @@ describe("compose", () => {
     expect(typeof compose([])).toBe("function");
   });
   it("throws an error if the supplied reducers are not an array", () => {
-    expect(() => compose({} as any)).toThrowError("Reducers must be an array");
+    expect(() => compose({} as ComposableReducer<never, never>[])).toThrowError(
+      "Reducers must be an array"
+    );
   });
   it("throws an error if the supplied reducers are not an array of functions", () => {
-    expect(() => compose([{} as any])).toThrowError(
+    expect(() => compose([{} as ComposableReducer<never, never>])).toThrowError(
       'Reducer at position "0" is not a function'
     );
   });

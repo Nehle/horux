@@ -99,7 +99,7 @@ export const compositeReducer = compose([errorHandler, reduxLogger, reducer]);
 ```
 
 ### `withDefault(defaultState)`
-Returns a reducer that returns the supplied `defaultState` if the `state` it's supplied is `undefined`
+Returns a reducer that returns the supplied `defaultState` if the `state` its supplied is `undefined`
 
 ```js
 import { withDefault } from "horux";
